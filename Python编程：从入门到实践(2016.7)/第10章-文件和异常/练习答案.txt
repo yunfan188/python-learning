@@ -1,0 +1,260 @@
+【10.3】异常
+【10-6】加法运算。
+## 源码
+try:
+	x = input("Input the first number: ")
+	x = int(x)
+	y = input("Input the second number: ")
+	y = int(y)
+except ValueError:
+	print("Error, this is not a number!")
+else:
+	sum = x + y;
+	print("The sum of "+ str(x)+ " and "+ str(y) + " is "+ str(sum)+ ".")
+## 运行结果1：
+Input the first number: 45
+Input the second number: 36
+The sum of 45 and 36 is 81.
+## 运行结果2：
+Input the first number: 34
+Input the second number: aa
+Error, this is not a number!
+## 运行结果3：
+Input the first number: ff
+Error, this is not a number!
+
+【10-7】加法计算器。
+## 源码
+while True:
+	try:
+		x = input("Input the first number: ")
+		if x == 'q':
+			break
+		x = int(x)
+		
+		y = input("Input the second number: ")
+		if y == 'q':
+			break
+		y = int(y)
+		
+	except ValueError:
+		print("Error, this is not a number! Please try again.\n")
+	else:
+		sum = x + y;
+		print("The sum of "+ str(x)+ " and "+ str(y) + " is "+ str(sum)+ ".\n")
+## 运行结果1：
+Input the first number: 23
+Input the second number: 24
+The sum of 23 and 24 is 47.
+## 运行结果2：
+Input the first number: aa
+Error, this is not a number! Please try again.
+## 运行结果3：
+Input the first number: 45
+Input the second number: bb
+Error, this is not a number! Please try again.
+## 运行结果4：
+Input the first number: q
+
+【10-8】猫和狗。
+## cats.txt
+henry
+kate
+amy
+## dogs.txt
+Jack
+Mike
+Godlike
+## cats_and_dogs.py
+filenames = ['cats.txt', 'dogs.txt']
+for filename in filenames:
+	print('\nReading file: '+ filename)
+	try:
+		with open(filename) as f_obj:
+			contents = f_obj.read()
+			print(contents.rstrip())
+	except FileNotFoundError:
+		print('  Sorry, I can`t find that file!')
+## 运行结果1：
+Reading file: cats.txt
+henry
+kate
+amy
+
+Reading file: dogs.txt
+Jack
+Mike
+Godlike
+## 运行结果2(当dogs.txt不存在的情况)
+Reading file: cats.txt
+henry
+kate
+amy
+
+Reading file: dogs.txt
+  Sorry, I can`t find that file!
+
+【10-9】沉默的猫和狗。修改10-8中的except代码块，让程序在文件不存在时一言不发。
+## cats.txt
+henry
+kate
+amy
+## dogs.txt
+Jack
+Mike
+Godlike
+## silent_cats_and_dogs.py
+filenames = ['cats.txt', 'dogs.txt']
+for filename in filenames:
+	try:
+		with open(filename) as f_obj:
+			contents = f_obj.read()
+	except FileNotFoundError:
+		pass
+	else:
+		print('\nReading file: '+ filename)
+		print(contents.rstrip())
+## 运行结果1：
+Reading file: cats.txt
+henry
+kate
+amy
+
+Reading file: dogs.txt
+Jack
+Mike
+Godlike
+## 运行结果2(当cats.txt不存在的情况)
+Reading file: dogs.txt
+Jack
+Mike
+Godlike
+
+【10-10】常见单词。
+## text.txt
+## count_word.py
+filenames = ['text.txt']
+word = input('Input the word: ')
+
+for filename in filenames:
+	try:
+		with open(filename) as f_obj:
+			contents = f_obj.read()
+	except FileNotFoundError:
+		print('Sorry, the file '+ filename+ ' doesn`t exist!')
+	else:
+		count = contents.lower().count(word.lower())
+		print('The count of "'+ word+ '" in the '+ filename+ ': '+ str(count))
+	print()
+## 运行结果1：
+Input the word: The
+The count of "The" in the text.txt: 25
+## 运行结果2：
+Input the word: the
+Sorry, the file text.txt doesn`t exist!
+
+
+【10.4】存储数据
+【10-11】喜欢的数字。
+## favorite_number_write.py
+import json
+
+filename = "favorite_number.json"
+number = input("What`s your favrite number? ")
+with open(filename, "w") as f_obj:
+	json.dump(number, f_obj)
+	print("Thanks! I`ll remember that.")
+
+## 运行结果：
+What`s your favrite number? 81
+Thanks! I`ll remember that.
+## favorite_number.json
+"81"
+
+## favorite_number_read.py
+import json
+
+filename = "favorite_number.json"
+try:
+	with open(filename, "r") as f_obj:
+		number = json.load(f_obj)
+except FileNotFoundError:
+	print("Sorry, the file: "+ filename+ " not exist!")
+else:
+	print("I know your favorite number! It`s "+ str(number)+ ".")
+
+## 运行结果：
+I know your favorite number! It`s 81.
+
+【10-12】记住喜欢的数字。
+## remember_favorite_number.py
+import json
+
+filename = "favorite_number.json"
+try:
+	with open(filename, "r") as f_obj:
+		number = json.load(f_obj)
+except FileNotFoundError:
+	number = input("What`s your favrite number? ")
+	with open(filename, "w") as f_obj:
+		json.dump(number, f_obj)
+		print("Thanks! I`ll remember that.")
+else:
+	print("I know your favorite number! It`s "+ str(number)+ ".")
+
+## 运行结果1：
+What`s your favrite number? Godlike
+Thanks! I`ll remember that.
+## 运行结果2：
+I know your favorite number! It`s Godlike.
+
+【10-13】验证用户。
+## remember_user.py
+import json
+
+def get_stored_username():
+	filename = "username.json"
+	try:
+		with open(filename, "r") as f_obj:
+			username = json.load(f_obj)
+	except FileNotFoundError:
+		print("The file: "+ filename+ " not exist!")
+		return None
+	else:
+		return username
+
+def get_new_username():
+	filename = "username.json"
+	username = input("what`s your name? ")
+	with open(filename, "w") as f_obj:
+		json.dump(username, f_obj)
+	return username
+
+def greet_user():
+	username = get_stored_username()
+	if username:
+		correct = input("Are you "+ username+ "? (y/n) ")
+		if correct == 'y':
+			print("Welcome back, "+ username+ "!")
+			return
+	username = get_new_username()
+	print("We`ll remember you when you come back, "+ username+ "!")
+
+#调用greet_user()函数
+greet_user()
+
+## 运行结果1：
+The file: username.json not exist!
+what`s your name? Godlike
+We`ll remember you when you come back, Godlike!
+## 运行结果2：
+Are you Godlike? (y/n) y
+Welcome back, Godlike!
+## 运行结果3：
+Are you Godlike? (y/n) n
+what`s your name? Robins
+We`ll remember you when you come back, Robins!
+## 运行结果4：
+Are you Robins? (y/n) y
+Welcome back, Robins!
+

@@ -1,0 +1,149 @@
+【11-1】城市和国家。
+## city_functions.py
+## 编写待测试函数
+def city_country(city, country):
+	cc = city.title()+ ', '+ country.title()
+	return cc
+
+## test_cities.py
+## 编写测试函数
+import unittest
+from city_functions import city_country
+
+class CityTestCase(unittest.TestCase):
+	def test_city_country(self):
+		sz_cn = city_country('shenzhen', 'china')
+		self.assertEqual(sz_cn, 'Shenzhen, China')
+
+unittest.main()
+
+## 运行结果：
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+
+【11-2】人口数量。
+1. 修改11-1中的待测试函数，使其包含第3个必不可少的形参population，并返回一个格式为City, Country - population 的字符串，如Santiago, Chile -
+5000000。运行test_cities.py,确认测试函数test_city_country()未通过。
+## city_functions.py
+## 编写待测试函数
+def city_country(city, country, population):
+	ccp = city.title()+ ', '+ country.title()
+	ccp += ' - population '+ str(population)
+	return ccp
+## 运行test_cities.py，运行结果如下：
+E
+======================================================================
+ERROR: test_city_country (__main__.CityTestCase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_cities.py", line 8, in test_city_country
+    sz_cn = city_country('shenzhen', 'china')
+TypeError: city_country() missing 1 required positional argument: 'population'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (errors=1)
+<说明> 测试函数test_city_country()未通过。
+
+2. 继续修改待测试函数，将形参population设置未可选的。
+## city_functions.py
+## 编写待测试函数
+def city_country(city, country, population=0):
+	ccp = city.title()+ ', '+ country.title()
+	if population:
+		ccp += ' - population '+ str(population)
+	return ccp
+## 运行test_cities.py，运行结果如下：
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+<说明> 测试函数test_city_country()又通过了。
+
+3. 再编写一个test_city_country_population测试用例函数，核实添加population参数后，是否能通过测试。
+## 修改city_functions.py如下所示：
+## 编写测试函数
+import unittest
+from city_functions import city_country
+
+class CityTestCase(unittest.TestCase):
+	def test_city_country(self):
+		sz_cn = city_country('shenzhen', 'china')
+		self.assertEqual(sz_cn, 'Shenzhen, China')
+	def test_city_country_population(self):
+		sz_cn_pl = city_country('shenzhen', 'china', 15000000)
+		self.assertEqual(sz_cn_pl, "Shenzhen, China - population 15000000")
+
+unittest.main()
+## 运行结果：
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+<分析> 可以看到，两个测试用例都通过了。
+
+【11-3】雇员。使用setUp()方法。
+## employee.py
+# 定义Employee类
+
+class Employee():
+	def __init__(self, f_name, l_name, salary=5000):
+		#初始化employee
+		self.f_name = f_name.title()
+		self.l_name = l_name.title()
+		self.salary = salary
+
+	def give_raise(self, amount=5000):
+		self.salary += amount
+
+## test_employee.py
+# 测试Employee类中的方法
+
+import unittest
+
+from employee import Employee
+
+class TestEmployee(unittest.TestCase):
+	def setUp(self):
+		self.Eric = Employee("Eric", "matthes", 65000)
+
+	def test_give_default_raise(self):
+		self.Eric.give_raise()
+		self.assertEqual(70000, self.Eric.salary)
+
+	def test_give_custom_raise(self):
+		self.Eric.give_raise(10000)
+		self.assertEqual(75000, self.Eric.salary)
+
+unittest.main()
+## 运行结果：
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+## windows的Dos命令行
+# 查看pip的版本: python -m pip --version
+# 升级pip的版本: python -m pip install --upgrade pip
+
+## Windows-x64系统安装pygame
+下载版本: pygame-1.9.6-cp37-cp37m-win_amd64.whl (64位版本)
+安装: python -m pip install --user pygame-1.9.6-cp37-cp37m-win_amd64.whl
+Installing collected packages: pygame
+Successfully installed pygame-1.9.6
+# 卸载pygame
+> python -m pip uninstall pygame
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
